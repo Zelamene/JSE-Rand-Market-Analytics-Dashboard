@@ -5,7 +5,8 @@ behaviour: rand-hedge correlation, rolling volatility, and a 50/200-day SMA
 crossover backtest against buy-and-hold, with realistic transaction costs
 and next-day execution to avoid lookahead bias.
 
-**Live demo:** [https://jse-rand-market-analytics-dashboard-3w8ntex9xejyesphdwaqtm.streamlit.app/]
+**Live demo:** [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://jse-rand-market-analytics-dashboard-3w8ntex9xejyesphdwaqtm.streamlit.app/)
+
 **Analysis period:** 2 Jan 2019 – 14 Jul 2026 (1,879 trading days)
 
 ## Key findings
