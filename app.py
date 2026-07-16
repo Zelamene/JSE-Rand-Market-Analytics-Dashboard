@@ -12,7 +12,7 @@ st.set_page_config(page_title="JSE + Rand Dashboard", layout="wide")
 
 Forest = "#1B4332"
 Green = "#2D6A4F"
-MID_GREEN = "#52B788"
+MID_Green = "#52B788"
 Lime = "#84CC16"
 Lime_SOFT = "#B5E48C"
 Grey = "#6B7280"
@@ -21,7 +21,7 @@ INK = "#1F2937"
 hairline = "#E3E8E3"
 GRID = "#EAEFEA"
 
-COLORWAY = [Forest, Lime, MID_GREEN, Grey, GREEN, Grey_SOFT, Lime_SOFT, "#374151"]
+COLORWAY = [Forest, Lime, MID_Green, Grey, Green, Grey_SOFT, Lime_SOFT, "#374151"]
 st.markdown(
     """
     <style>
@@ -266,7 +266,7 @@ with tab2:
             x=corr_df.index,
             y=corr_df["Rand Hedges (Naspers, Anglo)"],
             name="Rand Hedges (Naspers, Anglo)",
-            line=dict(color=MID_GREEN, width=2),
+            line=dict(color=MID_Green, width=2),
         )
     )
     fig_corr.add_trace(
