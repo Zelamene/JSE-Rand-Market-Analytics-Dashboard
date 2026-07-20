@@ -211,45 +211,19 @@ with tab1:
         "Each series rebased to 1.0 at the start date for a clean relative comparison."
     )
     if selected_stocks:
-        norm = prices[selected_stocks].div(prices[selected_stocks].iloc[0])
-        fig1 = px.line(norm)
-        fig1.update_traces(line_width=2)
-        st.plotly_chart(style_fig(fig1), use_container_width=True)
+        # Get the subset and drop any rows where all selected stocks are NaN
+        subset = prices[selected_stocks].dropna(how='all')
+        if not subset.empty:
+            norm = subset.div(subset.iloc[0])
+            fig1 = px.line(norm)
+            fig1.update_traces(line_width=2)
+            st.plotly_chart(style_fig(fig1), use_container_width=True)
+        else:
+            st.info("Selected stocks have no data for the chosen period.")
     else:
         st.info("Pick at least one stock in the sidebar to draw this chart.")
 
     st.divider()
-
-    st.subheader("Satrix 40 - 50/200-day moving averages")
-    fig_sma = go.Figure()
-    fig_sma.add_trace(
-        go.Scatter(
-            x=ma.index,
-            y=ma["Satrix40"],
-            name="Satrix 40",
-            line=dict(color=Forest, width=2.4),
-        )
-    )
-    fig_sma.add_trace(
-        go.Scatter(
-            x=ma.index,
-            y=ma["MA50"],
-            name="MA50",
-            line=dict(color=Lime, width=1.7),
-        )
-    )
-    fig_sma.add_trace(
-        go.Scatter(
-            x=ma.index,
-            y=ma["MA200"],
-            name="MA200",
-            line=dict(color=Grey, width=1.7, dash="dot"),
-        )
-    )
-    st.plotly_chart(style_fig(fig_sma), use_container_width=True)
-    st.caption(
-        "A golden cross (MA50 above MA200) is the long signal used in the Backtest tab."
-    )
 
 # Volatility, Correlation
 with tab2:
