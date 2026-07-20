@@ -158,7 +158,10 @@ def load_all(start):
 
 with st.spinner("Fetching prices…"):
     prices, returns, vol, ma, corr_hedge, corr_sa = load_all(start_date)
-
+    
+if prices.empty:
+    st.error("No data returned from Yahoo Finance. Please try again later or choose an earlier start date.")
+    st.stop()
 
 # KPI strip
 
