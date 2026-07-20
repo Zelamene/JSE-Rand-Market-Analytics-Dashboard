@@ -166,30 +166,41 @@ satrix = prices["Satrix40"].dropna()
 zar = prices["USDZAR"].dropna()
 hedge_corr_now = corr_hedge.dropna()
 
+def safe_last(series, fmt="{:.2f}", default="–"):
+    """Return formatted last value or default if series is empty."""
+    return fmt.format(series.iloc[-1]) if not series.empty else default
+
+def safe_pct_change(series):
+    """Return percentage change from second‑last to last, or None."""
+    s = series.dropna()
+    return f"{s.iloc[-1] / s.iloc[-2] - 1:+.2%}" if len(s) > 1 else None
+
 k1, k2, k3, k4 = st.columns(4)
+
 k1.metric(
     "Satrix 40 close (ZAR)",
-    f"{satrix.iloc[-1]:,.2f}",
-    last_pct_change(satrix),
-)
-k2.metric(
-    "USD/ZAR",
-    f"{zar.iloc[-1]:.2f}",
-    last_pct_change(zar),
-    delta_color="inverse",
-)
-k3.metric(
-    "Satrix 40 · period return",
-    f"{satrix.iloc[-1] / satrix.iloc[0] - 1:+.1%}",
-    help="Total return since the selected start date.",
-)
-k4.metric(
-    "Rand-hedge FX correlation (60d)",
-    f"{hedge_corr_now.iloc[-1]:.2f}" if len(hedge_corr_now) else "–",
-    help="Rolling 60-day correlation between the rand-hedge basket and USD/ZAR "
-    "returns. Positive = these stocks tend to rise when the rand weakens.",
+    safe_last(satrix, "{:,.2f}"),
+    safe_pct_change(satrix)
 )
 
+k2.metric(
+    "USD/ZAR",
+    safe_last(zar, "{:.2f}"),
+    safe_pct_change(zar),
+    delta_color="inverse"
+)
+
+k3.metric(
+    "Satrix 40 · period return",
+    f"{satrix.iloc[-1] / satrix.iloc[0] - 1:+.1%}" if len(satrix) > 1 else "–",
+    help="Total return since the selected start date."
+)
+
+k4.metric(
+    "Rand‑hedge FX correlation (60d)",
+    safe_last(hedge_corr_now, "{:.2f}"),
+    help="Rolling 60‑day correlation between the rand‑hedge basket and USD/ZAR returns…"
+)
 st.write("")
 
 tab1, tab2, tab3 = st.tabs(["Price & Trends", "Volatility & Correlation", "Backtest"])
