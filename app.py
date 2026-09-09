@@ -7,7 +7,7 @@ from data import fetch_data, TICKERS
 from analysis import compute_analytics
 from backtest import backtest_sma
 
-st.set_page_config(page_title="JSE + Rand Dashboard", layout="wide")
+st.set_page_config(page_title="JSE + Rand Dashboard", layout="wide", initial_sidebar_state="expanded")
 
 
 Forest = "#1B4332"
@@ -80,6 +80,13 @@ st.markdown(
 
     [data-testid="stCaptionContainer"] { color: #8A9490; }
     hr { border-color: #E3E8E3; }
+
+    [data-testid="stHeader"] {
+    display: none;
+}
+[data-testid="stAppViewContainer"] {
+    padding-top: 0 !important;
+}
     </style>
     """,
     unsafe_allow_html=True,
