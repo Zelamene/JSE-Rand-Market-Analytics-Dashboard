@@ -126,7 +126,6 @@ def last_pct_change(series):
 st.markdown(
     """
     <div class="hero">
-      <div class="eyebrow">Market-fluency demo</div>
       <h1>JSE <span class="accent">&amp;</span> Rand Dashboard</h1>
       <p>Rand hedges vs SA&nbsp;Inc - relative performance, volatility, currency
          correlation and a simple SMA crossover backtest on the Satrix&nbsp;40.</p>
