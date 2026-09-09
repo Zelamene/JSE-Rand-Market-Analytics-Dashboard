@@ -28,8 +28,9 @@ st.markdown(
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
     html, body, [class*="css"] { font-family: 'Inter', 'Source Sans Pro', sans-serif; }
+    body { margin: 0; padding: 0; }
 
-    [data-testid="stAppViewContainer"] { background: #F6F8F6; }
+    [data-testid="stAppViewContainer"] { background: #F6F8F6; padding-top: 0 !important; }
     [data-testid="stHeader"]           { background: transparent; }
 
     [data-testid="stSidebar"] {
@@ -67,9 +68,7 @@ st.markdown(
     }
     [data-testid="stMetricValue"] { color: #1B4332; font-weight: 700; }
 
-    .stTabs {
-        margin-top: 1.5rem;
-    }
+    .stTabs { margin-top: 1.5rem; }
     .stTabs [data-baseweb="tab-list"] { gap: 0.25rem; border-bottom: 1px solid #DFE6DF; }
     .stTabs [data-baseweb="tab"] {
         color: #6B7280; font-weight: 600;
@@ -104,9 +103,6 @@ st.markdown(
     [data-testid="stToolbarActions"],
     [data-testid="stMainMenu"] {
         display: none !important;
-    }
-    [data-testid="stAppViewContainer"] {
-        padding-top: 0 !important;
     }
     </style>
     """,
