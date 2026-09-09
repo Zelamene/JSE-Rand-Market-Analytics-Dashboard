@@ -105,6 +105,14 @@ st.markdown(
     [data-testid="stAppViewContainer"] {
         padding-top: 0 !important;
     }
+    [data-testid="stMainBlockContainer"] {
+        padding: 1rem 1rem 2rem 1rem !important;
+        max-width: 100% !important;
+    }
+    .block-container {
+        padding: 1rem 1rem 2rem 1rem !important;
+        max-width: 100% !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,
