@@ -82,11 +82,29 @@ st.markdown(
     hr { border-color: #E3E8E3; }
 
     [data-testid="stHeader"] {
-    display: none;
-}
-[data-testid="stAppViewContainer"] {
-    padding-top: 0 !important;
-}
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        z-index: 999 !important;
+        background: transparent !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        pointer-events: none;
+    }
+    [data-testid="stExpandSidebarButton"] {
+        pointer-events: auto !important;
+        margin: 8px !important;
+        background: rgba(255,255,255,0.85) !important;
+        border-radius: 50% !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    }
+    [data-testid="stToolbarActions"],
+    [data-testid="stMainMenu"] {
+        display: none !important;
+    }
+    [data-testid="stAppViewContainer"] {
+        padding-top: 0 !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,
