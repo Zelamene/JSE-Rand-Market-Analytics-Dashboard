@@ -39,7 +39,7 @@ st.markdown(
 
     h1, h2, h3 { color: #1B4332 !important; letter-spacing: -0.01em; }
 
-    .hero { padding: 0.3rem 0 0.4rem 0; }
+    .hero { padding: 0 0 0.4rem 0; }
     .hero .eyebrow {
         color: #4D7C0F;
         font-size: 0.72rem; font-weight: 700;
@@ -67,6 +67,9 @@ st.markdown(
     }
     [data-testid="stMetricValue"] { color: #1B4332; font-weight: 700; }
 
+    .stTabs {
+        margin-top: 1.5rem;
+    }
     .stTabs [data-baseweb="tab-list"] { gap: 0.25rem; border-bottom: 1px solid #DFE6DF; }
     .stTabs [data-baseweb="tab"] {
         color: #6B7280; font-weight: 600;
@@ -104,14 +107,6 @@ st.markdown(
     }
     [data-testid="stAppViewContainer"] {
         padding-top: 0 !important;
-    }
-    [data-testid="stMainBlockContainer"] {
-        padding: 1rem 1rem 2rem 1rem !important;
-        max-width: 100% !important;
-    }
-    .block-container {
-        padding: 1rem 1rem 2rem 1rem !important;
-        max-width: 100% !important;
     }
     </style>
     """,
