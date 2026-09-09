@@ -33,6 +33,11 @@ st.markdown(
     [data-testid="stAppViewContainer"] { background: #F6F8F6; padding-top: 0 !important; }
     [data-testid="stHeader"]           { background: transparent; }
 
+    [data-testid="stMainBlockContainer"],
+    .block-container {
+        padding-top: 1.2rem !important;
+    }
+
     [data-testid="stSidebar"] {
         background: #EDF2ED;
         border-right: 1px solid #DFE6DF;
@@ -40,7 +45,7 @@ st.markdown(
 
     h1, h2, h3 { color: #1B4332 !important; letter-spacing: -0.01em; }
 
-    .hero { padding: 0 0 0.4rem 0; }
+    .hero { padding: 0 0 0.2rem 0; }
     .hero .eyebrow {
         color: #4D7C0F;
         font-size: 0.72rem; font-weight: 700;
@@ -52,7 +57,11 @@ st.markdown(
     .hero p  { color: #6B7280; margin: 0.45rem 0 0 0; font-size: 0.97rem; max-width: 46rem; }
     .hero .rule {
         height: 3px; width: 72px; background: #84CC16;
-        border-radius: 99px; margin-top: 0.95rem;
+        border-radius: 99px; margin-top: 0.85rem; margin-bottom: 0.4rem;
+    }
+
+    div[data-testid="stVerticalBlock"] > div:has(> div[data-testid="stMetric"]) {
+        margin-top: 0.3rem;
     }
 
     [data-testid="stMetric"] {
@@ -67,6 +76,12 @@ st.markdown(
         color: #6B7280; font-weight: 600;
     }
     [data-testid="stMetricValue"] { color: #1B4332; font-weight: 700; }
+    [data-testid="stMetricLabel"] svg {
+        fill: #9CA3AF;
+    }
+    [data-testid="stMetricLabel"] svg:hover {
+        fill: #52B788;
+    }
 
     .stTabs { margin-top: 1.5rem; }
     .stTabs [data-baseweb="tab-list"] { gap: 0.25rem; border-bottom: 1px solid #DFE6DF; }
@@ -96,9 +111,17 @@ st.markdown(
     [data-testid="stExpandSidebarButton"] {
         pointer-events: auto !important;
         margin: 8px !important;
-        background: rgba(255,255,255,0.85) !important;
+        background: rgba(255,255,255,0.9) !important;
+        border: 1px solid #DFE6DF !important;
         border-radius: 50% !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    }
+    [data-testid="stExpandSidebarButton"] svg {
+        fill: #1B4332 !important;
+        color: #1B4332 !important;
+    }
+    [data-testid="stExpandSidebarButton"] svg path {
+        fill: #1B4332 !important;
     }
     [data-testid="stToolbarActions"],
     [data-testid="stMainMenu"] {
@@ -142,7 +165,11 @@ def style_fig(fig, height=430):
     return fig
 
 
-def last_pct_change(series):
+def safe_last(series, fmt="{:.2f}", default="–"):
+    return fmt.format(series.iloc[-1]) if not series.empty else default
+
+
+def safe_pct_change(series):
     s = series.dropna()
     return f"{s.iloc[-1] / s.iloc[-2] - 1:+.2%}" if len(s) > 1 else None
 
@@ -171,7 +198,6 @@ with st.sidebar:
     st.caption("Prices are cached per start date - change it to refetch.")
 
 
-# Data pipeline
 @st.cache_data
 def load_all(start):
     prices = fetch_data(start=str(start))
@@ -181,25 +207,14 @@ def load_all(start):
 
 with st.spinner("Fetching prices…"):
     prices, returns, vol, ma, corr_hedge, corr_sa = load_all(start_date)
-    
+
 if prices.empty:
     st.error("No data returned from Yahoo Finance. Please try again later or choose an earlier start date.")
     st.stop()
 
-# KPI strip
-
 satrix = prices["Satrix40"].dropna()
 zar = prices["USDZAR"].dropna()
 hedge_corr_now = corr_hedge.dropna()
-
-def safe_last(series, fmt="{:.2f}", default="–"):
-    """Return formatted last value or default if series is empty."""
-    return fmt.format(series.iloc[-1]) if not series.empty else default
-
-def safe_pct_change(series):
-    """Return percentage change from second‑last to last, or None."""
-    s = series.dropna()
-    return f"{s.iloc[-1] / s.iloc[-2] - 1:+.2%}" if len(s) > 1 else None
 
 k1, k2, k3, k4 = st.columns(4)
 
@@ -237,7 +252,6 @@ with tab1:
         "Each series rebased to 1.0 at the start date for a clean relative comparison."
     )
     if selected_stocks:
-        # Get the subset and drop any rows where all selected stocks are NaN
         subset = prices[selected_stocks].dropna(how='all')
         if not subset.empty:
             norm = subset.div(subset.iloc[0])
@@ -251,7 +265,6 @@ with tab1:
 
     st.divider()
 
-# Volatility, Correlation
 with tab2:
     st.subheader("30-day rolling volatility")
     st.caption("Annualised standard deviation of daily returns.")
